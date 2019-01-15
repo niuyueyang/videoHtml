@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--muted静音 autoplay自动播放 preload预加载 controlslist控制哪些不显示 poster='./1.jpg'封面-->
+<!--<video id="_volume" controls width="400" height="300" autoplay preload ontrolslist='nofullscreen'>
+  <source src="./2.mp4" type="video/mp4">
+  <source src="./3.mp4" type="video/mp4">
+</video>-->
+<video id="_volume" src="./2.mp4" controls width="400" height="300" autoplay preload ontrolslist='nofullscreen'>
+</video>
+<button id="btn">切换</button>
+</body>
+<script>
+  //控制音量
+  var _voume=document.getElementById("_volume");
+  _voume.volume=0.5;
+
+  //设置播放到哪
+  console.log(_voume.currentTime);//当前时间，单位秒
+  _voume.currentTime=60;//从第60秒开始播放
+
+  //切换
+  var btn=document.getElementById('btn');
+  btn.addEventListener("click",function () {
+    _voume.src='./3.mp4'
+  })
+
+  //获取source中的src
+  // setTimeout(function () {
+  //   console.log(document.querySelectorAll('source')[0].getAttribute('src'))
+  //   console.log(_voume.currentSrc)
+  // },1000)
+
+
+  //video事件，以下按照顺序加载
+  //视频查找
+  _voume.addEventListener('loadstart',function (e) {
+    console.log('loadstart');//代表视频已经开始加载
+  })
+  //时长变化
+  _voume.addEventListener('durationchange',function () {
+    console.log(_voume.duration);//总时长，不能放到外面，在外面为NAN
+  })
+  //元数据加载完成
+  _voume.addEventListener('loadedmetadata',function () {
+    console.log('loadedmetadata')
+  })
+  //触发这个事件，代表当前没有足够帧频去播放
+  _voume.addEventListener('loadeddata',function () {
+    console.log('loadeddata')
+  })
+  //视频下载
+  _voume.addEventListener('progress',function (e) {
+    console.log('progress')
+  })
+  //所有的都加载好了,可以播放了
+  _voume.addEventListener('canplay',function (e) {
+    console.log('canplay')
+  })
+  //可以流畅的播放了【通常在canplay,canplaythrough两个里面执行播放以及暂停】
+  _voume.addEventListener('canplaythrough',function (e) {
+    console.log('canplaythrough')
+  })
+  //play
+  _voume.addEventListener('play',function (e) {
+    console.log('play');
+  })
+  //暂停
+  _voume.addEventListener('pause',function (e) {
+    console.log('pause')
+  })
+  //seeking，在点击进度条时触发
+  _voume.addEventListener('seeking',function (e) {
+    console.log('seeking')
+  })
+  //seeked，点击完进度条加载好视频触发
+  _voume.addEventListener('seeked',function (e) {
+    console.log('seeked')
+  })
+  //waiting【在点击进度条后，当接着点击播放，如果此时没有足够数据播放，则触发waiting】
+  _voume.addEventListener('waiting',function (e) {
+    console.log('waiting')
+  })
+  //从暂停状态到播放状态中间触发
+  _voume.addEventListener('playing',function (e) {
+    console.log('playing')
+  })
+  //获取实时播放
+  _voume.addEventListener('timeupdate',function (e) {
+    console.log(_voume.currentTime)
+  })
+  //播放结束
+  _voume.addEventListener('ended',function (e) {
+    console.log('ended')
+  });
+  //播放错误
+  _voume.addEventListener('error',function (e) {
+    console.log('error')
+  })
+</script>
+</html>
